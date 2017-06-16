@@ -676,6 +676,7 @@ void receive_query(struct listener *listen, time_t now)
   size_t m;
   ssize_t n;
   int if_index = 0, auth_dns = 0;
+	char types[30];
 #ifdef HAVE_AUTH
   int local_auth = 0;
 #endif
@@ -855,7 +856,6 @@ void receive_query(struct listener *listen, time_t now)
   
   if (extract_request(header, (size_t)n, daemon->namebuff, &type))
     {
-      char types[20];
 #ifdef HAVE_AUTH
       struct auth_zone *zone;
 #endif
@@ -911,7 +911,20 @@ void receive_query(struct listener *listen, time_t now)
 			     header, (size_t)n, now, NULL))
 	daemon->queries_forwarded++;
       else
-	daemon->local_answer++;
+	{
+		daemon->local_answer++;
+
+    // Log any queries that get here, which we assume to be non-whitelisted domains
+		querystr(auth_dns ? "refused auth" : "refused query", types, type);
+		if (source_addr.sa.sa_family == AF_INET)
+			log_query(F_IPV4 | F_QUERY, daemon->namebuff, 
+								(struct all_addr *)&source_addr.in.sin_addr, types);
+#ifdef HAVE_IPV6
+		else
+			log_query(F_IPV6 | F_QUERY, daemon->namebuff,
+								(struct all_addr *)&source_addr.in6.sin6_addr, types);
+#endif 
+	}
     }
 }
 
