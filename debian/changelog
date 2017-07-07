@@ -1,3 +1,13 @@
+dnsmasq (2.68-1ubuntu0.1) trusty-security; urgency=medium
+
+  * SECURITY UPDATE: denial of service and memory disclosure via malformed
+    DNS requests
+    - src/rfc1035.c: properly handle skip_questions return value.
+    - ad4a8ff7d9097008d7623df8543df435bfddeac8
+    - CVE-2015-3294
+
+ -- Marc Deslauriers <marc.deslauriers@ubuntu.com>  Fri, 01 May 2015 10:37:08 -0400
+
 dnsmasq (2.68-1) unstable; urgency=low
 
    * New upstream. (closes: #730553)
