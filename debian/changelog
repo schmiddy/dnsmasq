@@ -1,3 +1,9 @@
+dnsmasq (2.68-1ubuntu0.1alt) trusty-security; urgency=medium
+
+  * Bump version to 2.68-1ubuntu0.1alt
+
+ -- Jeremy Zafran <jzafran@users.noreply.github.com>  Fri, 07 July 2017 11:35:00 -0400
+
 dnsmasq (2.68-1ubuntu0.1) trusty-security; urgency=medium
 
   * SECURITY UPDATE: denial of service and memory disclosure via malformed
